@@ -8,7 +8,7 @@
   var box=document.createElement('div');box.className='ov';box.style.zIndex=30;
   box.innerHTML='<div class="sheet" role="dialog" aria-modal="true">'+
    '<h3>📷 ZelConta Scan</h3><p class="hint">Fotografe a nota e confira os dados. A foto não será salva.</p>'+
-   '<label>Fotografia</label><input id="scanFile" type="file" accept="image/*" capture="environment">'+
+   '<label>Fotografia</label><input id="scanFile" type="file" accept="image/*" <input id="scanFile" type="file" accept="image/*">'+
    '<p class="hint" id="scanStatus" aria-live="polite"></p>'+
    '<label>Estabelecimento</label><input id="scanPlace" maxlength="100" placeholder="Ex.: Posto Petrobras Cuiabá">'+
    '<label>Valor total (R$)</label><input id="scanAmount" inputmode="decimal" placeholder="0,00">'+
