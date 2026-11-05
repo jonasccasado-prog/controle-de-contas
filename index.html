@@ -61,9 +61,29 @@ input,select{width:100%;padding:12px;border-radius:10px;border:1px solid var(--l
 .acts .ok{background:var(--pri);color:var(--onpri);border-color:var(--pri)}
 .acts .del{color:var(--late)}
 .hint{font-size:12px;color:var(--mut);margin-top:4px}
+
+/* ZelConta PF + PJ | somente navegação visual; preserva o motor e os dados do PF. */
+.zel-modebar{
+  position:sticky;top:0;z-index:24;display:flex;justify-content:center;gap:8px;
+  padding:9px 12px;background:linear-gradient(115deg,#064635,#0c6851);
+  border-bottom:2px solid #dfb85e;box-shadow:0 3px 15px rgba(0,44,29,.16);
+}
+.zel-modebar a{
+  display:flex;align-items:center;justify-content:center;gap:6px;min-width:0;flex:1;
+  max-width:265px;padding:10px 5px;border-radius:12px;text-decoration:none;
+  font-weight:750;font-size:13px;color:#f4fffa;border:1px solid rgba(255,255,255,.24);
+}
+.zel-modebar a[aria-current="page"]{background:#effaf4;color:#064e34;border-color:#effaf4}
+.zel-modebar .zel-modepj{color:#e8b958;font-weight:900}
+.zel-modebar a[aria-current="page"] .zel-modepj{color:#0b6a47}
+@media(max-width:365px){.zel-modebar a{font-size:12px;padding:9px 2px}}
 </style>
 </head>
 <body>
+<nav class="zel-modebar" aria-label="Alternar entre contas pessoais e empresariais">
+  <a href="./" aria-current="page">♙ &nbsp; ZelConta PF</a>
+  <a href="./pj/">▣ &nbsp; ZelConta <span class="zel-modepj">PJ</span></a>
+</nav>
 <div class="app">
   <div style="text-align:center;padding:8px 0 18px">
   <div style="font-size:24px;font-weight:800;color:#0F766E">ZelConta</div>
