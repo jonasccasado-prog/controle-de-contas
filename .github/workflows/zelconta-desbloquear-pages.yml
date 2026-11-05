@@ -1,0 +1,47 @@
+name: ZelConta - liberar GitHub Pages
+
+on:
+  push:
+    paths:
+      - '.github/workflows/zelconta-desbloquear-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+
+jobs:
+  corrigir-pages:
+    name: Cancelar bloqueio e solicitar publicacao
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verificar e cancelar somente o deployment travado
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STUCK_SHA: c995647a1f8e3fd4a52d6ec42a4f2aecfed81f99
+        run: |
+          set -euo pipefail
+          echo "Consultando deployment indicado no erro do GitHub Pages."
+          status="$(gh api "repos/${GITHUB_REPOSITORY}/pages/deployments/${STUCK_SHA}" --jq '.status')"
+          echo "Status encontrado: ${status}"
+          case "${status}" in
+            succeed|success|cancelled|canceled|failed|failure|error)
+              echo "Deployment anterior ja finalizado; nao sera cancelado."
+              ;;
+            *)
+              echo "Cancelando o deployment que bloqueia a publicacao."
+              gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/deployments/${STUCK_SHA}/cancel"
+              echo "Pedido de cancelamento enviado."
+              ;;
+          esac
+
+      - name: Solicitar nova publicacao do conteudo atual
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          echo "Solicitando nova compilacao do GitHub Pages sem mudar os arquivos PF/PJ."
+          gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds" --jq '.status'
+          echo "Pedido registrado. Verifique Actions > pages build and deployment."
